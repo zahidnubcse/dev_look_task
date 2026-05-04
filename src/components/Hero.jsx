@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Navbar from './Navbar'
 import Hero_1 from '../assets/hero_1.jpg'
 import Hero_2 from '../assets/hero_2.jpg'
 import Hero_3 from '../assets/hero_3.jpg'
@@ -11,82 +12,83 @@ export default function HeroSection() {
   })
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col overflow-hidden">
+    <>
+      <Navbar />
 
-      {/* Blurred bg layer */}
-      <div
-        className="absolute inset-0 scale-110"
-        style={{
-          backgroundImage: `url(${currentImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'blur(12px)',
-        }}
-      />
+      <div className="pt-[4px] px-[4px]">
+        <section className="relative w-full min-h-screen flex flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+          {/* Background */}
+          <div
+            className="absolute inset-0 scale-110 blur-md"
+            style={{
+              backgroundImage: `url(${currentImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
 
-      {/* Badge */}
-      <div className="relative z-10 flex flex-col items-center justify-center mt-32 mb-4">
-        <p className="text-white text-xs font-bold tracking-widest uppercase text-center">
-          #1 Most Recommended<br />Content Marketing Agency
-        </p>
-        <div className="flex items-center gap-3 mt-2 opacity-80">
-          {['Global Search Awards', 'The Drum', 'UK Social Media Awards', 'Content Awards'].map((a) => (
-            <span key={a} className="text-white text-[10px] border border-white/40 px-2 py-0.5 rounded-full">
-              {a}
-            </span>
-          ))}
-        </div>
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40" />
+
+          {/* Content */}
+          <div className="relative z-10 flex flex-col h-full">
+
+            {/* Badge */}
+            <div className="flex flex-col items-center mt-28 md:mt-32 mb-6 px-4 text-center">
+              <p className="text-white text-[10px] md:text-xs font-bold tracking-widest uppercase">
+                #1 Most Recommended Content Marketing Agency
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-2 mt-2 opacity-80">
+                {['Global Search Awards', 'The Drum', 'UK Social Media Awards', 'Content Awards'].map((a) => (
+                  <span key={a} className="text-white text-[9px] md:text-[10px] border border-white/40 px-2 py-0.5 rounded-full">
+                    {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Hero Text */}
+            <div className="flex flex-col items-center justify-center flex-1 px-3 md:px-4 text-center">
+              <h1 className="text-white font-black leading-none">
+
+                <span className="block text-[clamp(36px,10vw,120px)]">
+                  We Create
+                </span>
+
+                <span className="flex items-center justify-center gap-2 md:gap-4 flex-wrap text-[clamp(36px,10vw,120px)]">
+                  <span>Category</span>
+
+                  <span className="w-[clamp(50px,7vw,100px)] h-[clamp(50px,7vw,100px)] rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                    <img src={currentImage} alt="hero" className="w-full h-full object-cover" />
+                  </span>
+
+                  <span>Leaders</span>
+                </span>
+
+                <span className="block text-white/80 text-sm md:text-lg mt-3 md:mt-4 font-normal">
+                  on every searchable platform
+                </span>
+
+              </h1>
+            </div>
+
+            {/* Bottom */}
+            <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-6 pb-6 gap-3 md:gap-4 text-center md:text-left">
+              <p className="text-white/80 text-xs md:text-sm max-w-xs">
+                Organic media planners creating, distributing & optimising search-first content
+              </p>
+
+              <p className="text-white/80 text-xs md:text-sm">
+                4 Global Offices serving <br />
+                <span className="font-semibold">UK, USA (New York) & EU</span>
+              </p>
+            </div>
+
+          </div>
+        </section>
       </div>
-
-      {/* Hero Text */}
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-4 -mt-8">
-        <h1
-          className="text-white text-center font-black leading-none select-none"
-          style={{ fontSize: 'clamp(64px, 10vw, 140px)', fontFamily: 'Georgia, serif' }}
-        >
-          <span className="block">We Create</span>
-
-          <span className="flex items-center justify-center gap-4 flex-wrap">
-            <span>Category</span>
-
-            {/* Sharp inline thumbnail */}
-            <span
-              className="inline-block rounded-2xl overflow-hidden"
-              style={{
-                width: 'clamp(60px, 7vw, 100px)',
-                height: 'clamp(60px, 7vw, 100px)',
-                flexShrink: 0,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                position: 'relative',
-                top: '-4px',
-              }}
-            >
-              <img src={currentImage} alt="hero" className="w-full h-full object-cover" />
-            </span>
-
-            <span>Leaders</span>
-          </span>
-
-          <span className="block text-white/90" style={{ fontSize: '0.45em', fontWeight: 400, fontFamily: 'sans-serif' }}>
-            on every searchable platform
-          </span>
-        </h1>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="relative z-10 w-full flex justify-between items-end px-6 pb-6">
-        <p className="text-white/80 text-sm max-w-xs">
-          Organic media planners creating, distributing & optimising search-first content
-        </p>
-        <p className="text-white/80 text-sm text-right">
-          4 Global Offices serving<br />
-          <span className="font-semibold">UK, USA (New York) & EU</span>
-        </p>
-      </div>
-
-    </section>
+    </>
   )
 }

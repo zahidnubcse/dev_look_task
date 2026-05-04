@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+.perspective {
+  perspective: 1000px;
+}
+
+.spin-vertical {
+  display: inline-block;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.spin-vertical:hover {
+  transform: rotateX(360deg);
+}

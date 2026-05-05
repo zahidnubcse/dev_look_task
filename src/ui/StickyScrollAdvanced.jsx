@@ -1,5 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "framer-motion";
 
 export default function StickyScrollAdvanced({ content }) {
   const containerRef = useRef(null);
@@ -11,26 +16,20 @@ export default function StickyScrollAdvanced({ content }) {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const idx = Math.min(
-      Math.floor(v * content.length),
-      content.length - 1
-    );
+    const idx = Math.min(Math.floor(v * content.length), content.length - 1);
     setActiveIndex(idx);
   });
 
   return (
-<div
-  ref={containerRef}
-  className="relative w-full mx-auto max-w-[1450px] rounded-2xl bg-[#0a0a0a]"
-  style={{ height: `${content.length * 100}vh` }}
->
-
+    <div
+      ref={containerRef}
+      className="relative w-full mx-auto max-w-[1450px] rounded-2xl bg-[#0a0a0a]"
+      style={{ height: `${content.length * 100}vh` }}
+    >
       {/* STICKY WRAPPER */}
-   <div className="sticky top-0 h-screen flex overflow-hidden mx-8 rounded-2xl">
-
+      <div className="sticky top-0 h-screen flex overflow-hidden  rounded-2xl">
         {/* LEFT — sticky info panel */}
         <div className="w-[38%] h-full flex flex-col justify-between px-10 py-14 border-r border-white/10">
-
           {/* Top: counter */}
           <div>
             <p className="text-white/30 text-xs uppercase tracking-[0.25em] font-semibold mb-8">
@@ -72,10 +71,15 @@ export default function StickyScrollAdvanced({ content }) {
                   {item.title}
                 </h2>
                 <div className="flex items-baseline gap-2 mb-6">
-                  <span className="text-5xl font-black" style={{ color: item.accent }}>
+                  <span
+                    className="text-5xl font-black"
+                    style={{ color: item.accent }}
+                  >
                     {item.stat}
                   </span>
-                  <span className="text-white/40 text-sm">{item.statLabel}</span>
+                  <span className="text-white/40 text-sm">
+                    {item.statLabel}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {item.tags.map((tag) => (
@@ -98,12 +102,24 @@ export default function StickyScrollAdvanced({ content }) {
                 <div className="flex-1 h-[1px] bg-white/10 relative overflow-hidden">
                   <motion.div
                     className="absolute inset-y-0 left-0 bg-white"
-                    animate={{ width: activeIndex === i ? "100%" : activeIndex > i ? "100%" : "0%" }}
+                    animate={{
+                      width:
+                        activeIndex === i
+                          ? "100%"
+                          : activeIndex > i
+                            ? "100%"
+                            : "0%",
+                    }}
                     transition={{ duration: 0.4 }}
-                    style={{ opacity: activeIndex === i ? 1 : activeIndex > i ? 0.3 : 0 }}
+                    style={{
+                      opacity:
+                        activeIndex === i ? 1 : activeIndex > i ? 0.3 : 0,
+                    }}
                   />
                 </div>
-                <span className={`text-[10px] font-semibold tabular-nums transition-colors duration-300 ${activeIndex === i ? "text-white" : "text-white/20"}`}>
+                <span
+                  className={`text-[10px] font-semibold tabular-nums transition-colors duration-300 ${activeIndex === i ? "text-white" : "text-white/20"}`}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
@@ -142,7 +158,6 @@ export default function StickyScrollAdvanced({ content }) {
             </motion.div>
           ))}
         </div>
-
       </div>
     </div>
   );

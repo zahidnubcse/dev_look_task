@@ -5,11 +5,11 @@ export default function MarqueeGSAP() {
   const containerRef = useRef(null);
 
   const items = [
-    "🚀 Modern Websites",
-    "💡 UI/UX Design",
-    "⚡ Fast Web Apps",
-    "🎯 SEO Optimization",
-    "📱 Mobile First Development",
+    "Modern Websites",
+    "UI/UX Design",
+    "Fast Web Apps",
+    "SEO Optimization",
+    "Mobile First Development",
   ];
 
   useLayoutEffect(() => {
@@ -49,7 +49,7 @@ export default function MarqueeGSAP() {
       
       {/* TOP TEXT */}
       <p className="text-center text-gray-800 text-sm md:text-base font-medium mb-2">
-        We are working with
+        The agency behind
       </p>
 
       {/* MARQUEE */}

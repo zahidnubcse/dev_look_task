@@ -1,8 +1,9 @@
 import React from 'react'
 import HeroSection from '../components/Hero'
 import Motivation from '../components/Motivation'
-import FeaturedWork from '../components/FeaturedWork'
+// import FeaturedWork from '../components/FeaturedWork'
 import Agency from '../components/Agency'
+import Services from '../components/Services'
 
 export default function Home() {
   return (
@@ -10,7 +11,8 @@ export default function Home() {
      <HeroSection/>
      <Agency/>
      <Motivation/>
-     <FeaturedWork/>
+     {/* <FeaturedWork/> */}
+     <Services/>
     </div>
   )
 }

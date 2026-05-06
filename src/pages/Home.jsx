@@ -1,13 +1,12 @@
 import React from 'react'
 import HeroSection from '../components/Hero'
-import Agency from '../components/Agency'
 import Motivation from '../components/Motivation'
 import FeaturedWork from '../components/FeaturedWork'
+import Agency from '../components/Agency'
 
 export default function Home() {
   return (
-    <div>
-        
+    <div>     
      <HeroSection/>
      <Agency/>
      <Motivation/>

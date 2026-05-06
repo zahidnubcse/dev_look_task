@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Navbar from './Navbar'
 import Hero_1 from '../assets/hero_1.jpg'
 import Hero_2 from '../assets/hero_2.jpg'
 import Hero_3 from '../assets/hero_3.jpg'
+import Navbar from './Navbar';
 
 const images = [Hero_1, Hero_2, Hero_3]
 
@@ -13,7 +13,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
 
       <div className="pt-[4px] px-[4px]">
         <section className="relative w-full min-h-screen flex flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl">

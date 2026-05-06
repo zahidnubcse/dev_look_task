@@ -3,24 +3,28 @@ import BB from "../assets/bb.jpg";
 
 export default function Motivation() {
   return (
-    <div className="p-2 flex justify-between items-center mt-15">
+    <div className="p-3 sm:p-4 md:p-6 flex flex-col md:flex-row justify-between items-start md:items-center mt-10 sm:mt-12 md:mt-15 gap-6 md:gap-8">
+
       {/* Left part */}
-      <div>
-        <p className="text-xl p-4 font-medium">
-          A global team of search-first content marketers <br />
-          engineering semantic relevancy & category <br />
+      <div className="w-full md:w-1/2">
+        <p className="text-base sm:text-lg md:text-xl px-1 sm:px-2 md:px-4 font-medium leading-snug">
+          A global team of search-first content marketers{" "}
+          <span className="hidden sm:inline"><br /></span>
+          engineering semantic relevancy & category{" "}
+          <span className="hidden sm:inline"><br /></span>
           signals for both the internet and people
         </p>
       </div>
 
       {/* Right part */}
-      <div className="mr-20">
-        <h1 className="text-6xl font-bold leading-tight">
-          Driving Demand & <br />
+      <div className="w-full md:w-1/2 md:flex md:flex-col md:items-end md:pr-10 lg:pr-20">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          Driving Demand &{" "}
+          <br />
           {/* Inline row for Discovery + Image */}
-          <span className="flex items-center gap-3">
+          <span className="flex items-center gap-2 sm:gap-3">
             Discovery
-            <span className="w-[60px] h-[60px] rounded-xl overflow-hidden shadow-lg">
+            <span className="w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] md:w-[60px] md:h-[60px] rounded-xl overflow-hidden shadow-lg flex-shrink-0">
               <img
                 src={BB}
                 alt="motivation"
@@ -30,9 +34,9 @@ export default function Motivation() {
           </span>
         </h1>
 
-        <div className="mt-3 flex gap-3">
+        <div className="mt-3 flex gap-3 flex-wrap">
           {/* Button 1 */}
-          <button className="group relative overflow-hidden border rounded-3xl px-4 py-2 bg-white cursor-pointer">
+          <button className="group relative overflow-hidden border rounded-3xl px-4 py-2 bg-white cursor-pointer text-sm sm:text-base">
             <span className="block h-6 overflow-hidden">
               <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-6">
                 <span>Our Story ↗</span>
@@ -42,7 +46,7 @@ export default function Motivation() {
           </button>
 
           {/* Button 2 */}
-          <button className="group relative overflow-hidden bg-white cursor-pointer">
+          <button className="group relative overflow-hidden bg-white cursor-pointer text-sm sm:text-base px-1">
             <span className="block h-6 overflow-hidden">
               <span className="flex flex-col transition-transform duration-300 group-hover:-translate-y-6">
                 <span>Our Services ↗</span>
@@ -52,6 +56,7 @@ export default function Motivation() {
           </button>
         </div>
       </div>
+
     </div>
   );
 }

@@ -32,17 +32,20 @@ export default function HeroSection() {
           <div className="absolute inset-0 bg-black/40" />
 
           {/* Content */}
-          <div className="relative z-10 flex flex-col h-full">
+          <div className="relative z-10 flex flex-col h-full min-h-screen">
 
             {/* Badge */}
-            <div className="flex flex-col items-center mt-28 md:mt-32 mb-6 px-4 text-center">
-              <p className="text-white text-[10px] md:text-xs font-bold tracking-widest uppercase">
+            <div className="flex flex-col items-center mt-24 sm:mt-28 md:mt-32 mb-4 sm:mb-6 px-4 text-center">
+              <p className="text-white text-[9px] sm:text-[10px] md:text-xs font-bold tracking-widest uppercase">
                 #1 Most Recommended Content Marketing Agency
               </p>
 
-              <div className="flex flex-wrap justify-center gap-2 mt-2 opacity-80">
+              <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mt-2 opacity-80">
                 {['Global Search Awards', 'The Drum', 'UK Social Media Awards', 'Content Awards'].map((a) => (
-                  <span key={a} className="text-white text-[9px] md:text-[10px] border border-white/40 px-2 py-0.5 rounded-full">
+                  <span
+                    key={a}
+                    className="text-white text-[8px] sm:text-[9px] md:text-[10px] border border-white/40 px-2 py-0.5 rounded-full"
+                  >
                     {a}
                   </span>
                 ))}
@@ -50,24 +53,24 @@ export default function HeroSection() {
             </div>
 
             {/* Hero Text */}
-            <div className="flex flex-col items-center justify-center flex-1 px-3 md:px-4 text-center">
-              <h1 className="text-white font-black leading-none">
+            <div className="flex flex-col items-center justify-center flex-1 px-3 sm:px-4 md:px-6 text-center pb-4">
+              <h1 className="text-white font-black leading-none w-full">
 
-                <span className="block text-[clamp(36px,10vw,120px)]">
+                <span className="block text-[clamp(32px,9vw,120px)]">
                   We Create
                 </span>
 
-                <span className="flex items-center justify-center gap-2 md:gap-4 flex-wrap text-[clamp(36px,10vw,120px)]">
+                <span className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 flex-wrap text-[clamp(32px,9vw,120px)]">
                   <span>Category</span>
 
-                  <span className="w-[clamp(50px,7vw,100px)] h-[clamp(50px,7vw,100px)] rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+                  <span className="w-[clamp(40px,6vw,100px)] h-[clamp(40px,6vw,100px)] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
                     <img src={currentImage} alt="hero" className="w-full h-full object-cover" />
                   </span>
 
                   <span>Leaders</span>
                 </span>
 
-                <span className="block text-white/80 text-sm md:text-lg mt-3 md:mt-4 font-normal">
+                <span className="block text-white/80 text-xs sm:text-sm md:text-lg mt-2 sm:mt-3 md:mt-4 font-normal">
                   on every searchable platform
                 </span>
 
@@ -75,12 +78,12 @@ export default function HeroSection() {
             </div>
 
             {/* Bottom */}
-            <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-6 pb-6 gap-3 md:gap-4 text-center md:text-left">
-              <p className="text-white/80 text-xs md:text-sm max-w-xs">
+            <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end px-4 sm:px-5 md:px-6 pb-5 sm:pb-6 gap-2 sm:gap-4 text-center sm:text-left">
+              <p className="text-white/80 text-[11px] sm:text-xs md:text-sm max-w-[280px] sm:max-w-xs">
                 Organic media planners creating, distributing & optimising search-first content
               </p>
 
-              <p className="text-white/80 text-xs md:text-sm">
+              <p className="text-white/80 text-[11px] sm:text-xs md:text-sm">
                 4 Global Offices serving <br />
                 <span className="font-semibold">UK, USA (New York) & EU</span>
               </p>

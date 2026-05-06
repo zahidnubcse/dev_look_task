@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-{/*agency*/}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);

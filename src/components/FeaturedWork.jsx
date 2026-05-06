@@ -63,7 +63,7 @@ const content = [
 export default function FeaturedWork() {
   return (
     <section className="w-full px-4 mt-10">
-      <StickyScrollAdvanced content={content} />
+      <StickyScrollAdvanced  content={content} />
     </section>
   );
 }

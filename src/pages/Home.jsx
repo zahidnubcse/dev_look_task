@@ -5,6 +5,7 @@ import Motivation from '../components/Motivation'
 import Agency from '../components/Agency'
 import Services from '../components/Services'
 import Marquee_2 from '../components/Marquee_2'
+import ImageReveal from '../components/ImageReveal'
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
      {/* <FeaturedWork/> */}
      <Services/>
      <Marquee_2/>
+     <ImageReveal/>
     </div>
   )
 }

@@ -11,23 +11,21 @@ export default function SnakeText() {
   const text = "READY TO RISE AT SEVEN";
 
   useEffect(() => {
-    const init = () => {
-      if (started.current) return; // prevent double init
+    const start = () => {
+      if (started.current) return;
       started.current = true;
 
-      target.current = 0;
-      current.current = 0;
       lastScroll.current = window.scrollY;
 
       const animate = () => {
-        current.current += (target.current - current.current) * 0.1;
+        current.current += (target.current - current.current) * 0.12;
 
-        const time = Date.now() * 0.003;
+        const time = Date.now() * 0.0025;
 
         lettersRef.current.forEach((el, i) => {
-          if (!el) return; // IMPORTANT safety fix
+          if (!el) return;
 
-          const wave = Math.sin(time + i * 0.3) * 14;
+          const wave = Math.sin(time + i * 0.25) * 10;
 
           el.style.transform = `translate3d(${current.current + wave}px, 0, 0)`;
         });
@@ -38,14 +36,15 @@ export default function SnakeText() {
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    // ✅ wait for layout paint (important fix)
-    const frame = requestAnimationFrame(init);
+    // wait until DOM paints (CRITICAL FIX)
+    const frame = requestAnimationFrame(start);
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const diff = scrollY - lastScroll.current;
 
-      target.current += diff * -0.8;
+      // smoother control (prevents “invisible jump” bug)
+      target.current += diff * -0.7;
 
       lastScroll.current = scrollY;
     };
@@ -62,7 +61,7 @@ export default function SnakeText() {
 
   return (
     <section className="overflow-hidden bg-white py-40">
-      <div className="flex flex-nowrap justify-center whitespace-nowrap font-black uppercase leading-none text-black">
+      <div className="flex justify-center whitespace-nowrap font-black uppercase leading-none text-black">
         {text.split("").map((char, i) => (
           <span
             key={i}

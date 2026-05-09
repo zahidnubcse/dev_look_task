@@ -8,10 +8,12 @@ import Marquee_2 from '../components/Marquee_2'
 import ImageReveal from '../components/ImageReveal'
 import Testimonial from '../components/Testimonial'
 import SnakeTextSlider from '../components/SnakeTextSlider'
+import PageIntro from '../components/PageIntro'
 
 export default function Home() {
   return (
     <div>     
+     <PageIntro/>
      <HeroSection/>
      <Agency/>
      <Motivation/>

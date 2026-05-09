@@ -1,216 +1,217 @@
-import React, { useRef } from "react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
+import React, { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-import Img_1 from "../assets/hero_1.jpg";
-import Img_2 from "../assets/hero_2.jpg";
-import Img_3 from "../assets/hero_3.jpg";
-import Img_4 from "../assets/bb.jpg";
+import Lenis from "lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CARDS = [
+const cards = [
   {
-    src: Img_1,
-    heading: "Pioneers",
-    body: "We paved the path for creative SEO and multi-channel search.",
-    moveX: "-38%",
-    moveY: "-25%",
-    moveZ: 320,
-    moveR: -16,
-    scale: 0.88,
+    num: "01",
+    label: "PIONEERS",
+    title: ["Search", "First."],
+    body: "We engineer semantic relevancy before anyone else moves.",
+    bg: "#0e0e0e",
+    text: "#f5f0e8",
+    accent: "#ff3c00",
+    ghost: "rgba(255,255,255,0.05)",
+    border: "rgba(255,255,255,0.08)",
   },
   {
-    src: Img_2,
-    heading: "Creators",
-    body: "Building the industry narrative that others follow later.",
-    moveX: "38%",
-    moveY: "-22%",
-    moveZ: 340,
-    moveR: 14,
-    scale: 0.9,
+    num: "02",
+    label: "STRATEGY",
+    title: ["Category", "Leaders."],
+    body: "On every searchable platform — Google, TikTok, ChatGPT, Reddit.",
+    bg: "#f5f0e8",
+    text: "#0e0e0e",
+    accent: "#ff3c00",
+    ghost: "rgba(14,14,14,0.04)",
+    border: "rgba(14,14,14,0.08)",
   },
   {
-    src: Img_3,
-    heading: "Disruptors",
-    body: "Search-first ideas that reshape digital culture.",
-    moveX: "-35%",
-    moveY: "28%",
-    moveZ: 300,
-    moveR: -18,
-    scale: 0.87,
+    num: "03",
+    label: "SPEED",
+    title: ["Ideas to", "Result."],
+    body: "From concept to live in 60 minutes. We chase consumers, not algorithms.",
+    bg: "#ff3c00",
+    text: "#f5f0e8",
+    accent: "#e8ff00",
+    ghost: "rgba(255,255,255,0.06)",
+    border: "rgba(255,255,255,0.15)",
   },
   {
-    src: Img_4,
-    heading: "Leaders",
-    body: "Winning attention across Google, TikTok, Reddit & AI.",
-    moveX: "35%",
-    moveY: "26%",
-    moveZ: 330,
-    moveR: 16,
-    scale: 0.92,
+    num: "04",
+    label: "LEGACY",
+    title: ["Legacy in", "the Making."],
+    body: "Paving the path others follow three years from now.",
+    bg: "#0e0e0e",
+    text: "#f5f0e8",
+    accent: "#e8ff00",
+    ghost: "rgba(255,255,255,0.05)",
+    border: "rgba(255,255,255,0.08)",
   },
 ];
 
-export default function LegacyMaking() {
+export default function ScrollCardFlip() {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
 
-  useGSAP(() => {
-    // 3D perspective
-    gsap.set(sectionRef.current, {
-      perspective: 1400,
+  useLayoutEffect(() => {
+    const isMobile = window.innerWidth < 640;
+
+    const lenis = new Lenis({
+      lerp: 0.08,
+      smoothWheel: true,
     });
 
-    // CARDS INITIAL STATE
-    cardRefs.current.forEach((card, i) => {
-      gsap.set(card, {
-        x: 0,
-        y: 0,
-        z: 0,
-        rotation: 0,
-        scale: 1,
-        opacity: 1,
-        transformOrigin: "center center",
-        zIndex: i + 1,
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    const ctx = gsap.context(() => {
+      const cardsEl = cardRefs.current;
+
+      // INITIAL STACK
+      cardsEl.forEach((card, i) => {
+        gsap.set(card, {
+          y: i * 30,
+          scale: 1 - i * 0.04,
+          zIndex: cards.length - i,
+          opacity: 1,
+        });
       });
-    });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=4500",
-        scrub: 1.2,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // FLY OUT CARDS
-    cardRefs.current.forEach((card, i) => {
-      tl.to(
-        card,
-        {
-          x: CARDS[i].moveX,
-          y: CARDS[i].moveY,
-          z: CARDS[i].moveZ,
-          rotation: CARDS[i].moveR,
-          scale: CARDS[i].scale,
-          duration: 1.2,
-          ease: "power4.out",
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: isMobile
+            ? `+=${cards.length * 650}`
+            : `+=${cards.length * 1100}`,
+          scrub: 1.2,
+          pin: true,
         },
-        i * 0.4
-      );
-    });
+      });
 
-    // HOVER EFFECT
-    cardRefs.current.forEach((card) => {
-      const move = (e) => {
-        const rect = card.getBoundingClientRect();
+      cardsEl.forEach((card, i) => {
+        tl.to(
+          card,
+          {
+            y: -180,
+            scale: 1.05,
+            rotate: i % 2 === 0 ? -8 : 8,
+            duration: 1,
+            ease: "power3.inOut",
+          },
+          i
+        ).to(
+          card,
+          {
+            y: isMobile ? -500 : -900,
+            opacity: 0,
+            scale: 0.8,
+            rotate: i % 2 === 0 ? -18 : 18,
+            duration: 1,
+            ease: "power4.inOut",
+          },
+          i + 0.45
+        );
+      });
+    }, sectionRef);
 
-        const x = (e.clientX - rect.left - rect.width / 2) / 18;
-        const y = (e.clientY - rect.top - rect.height / 2) / 18;
-
-        gsap.to(card, {
-          rotationY: x * 2,
-          rotationX: -y * 2,
-          y: "-12px",
-          duration: 0.4,
-          ease: "power2.out",
-        });
-      };
-
-      const leave = () => {
-        gsap.to(card, {
-          rotationX: 0,
-          rotationY: 0,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-        });
-      };
-
-      card.addEventListener("mousemove", move);
-      card.addEventListener("mouseleave", leave);
-    });
-  }, { scope: sectionRef });
+    return () => {
+      ctx.revert();
+      lenis.destroy();
+    };
+  }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen overflow-hidden flex items-center justify-center"
-    >
-      {/* GRID */}
-      <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle,#000 1px,transparent 1px)",
-          backgroundSize: "26px 26px",
-        }}
-      />
-
-      {/* FIXED TITLE (NO ANIMATION) */}
-      <div className="fixed top-10 left-1/2 -translate-x-1/2 z-50 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-black tracking-tight">
-          Legacy In The Making
-        </h2>
-
-        <p className="mt-2 text-sm md:text-base text-neutral-500">
-          Scroll to watch cards fly in 3D space
-        </p>
-      </div>
-
-      {/* CARDS */}
-      <div className="relative w-full h-full flex items-center justify-center lg:pt-40">
-        {CARDS.map((card, i) => (
-          <div
-            key={i}
-            ref={(el) => (cardRefs.current[i] = el)}
-            className="absolute will-change-transform cursor-grab"
-          >
+    <div className="bg-white">
+      <section
+        ref={sectionRef}
+        className="relative flex h-screen items-center justify-center overflow-hidden px-4"
+      >
+        <div className="absolute inset-0 flex items-center justify-center">
+          {cards.map((c, i) => (
             <div
-              className="
-                bg-white
-                rounded-[32px]
-
-                w-[360px]
-                sm:w-[420px]
-                md:w-[520px]
-                lg:w-[600px]
-
-                p-7 md:p-8
-
-                shadow-[0_25px_80px_rgba(0,0,0,0.18)]
-                border border-neutral-200
-              "
+              key={i}
+              ref={(el) => (cardRefs.current[i] = el)}
+              className="absolute flex w-[92vw] max-w-[700px] h-[85vh] max-h-[820px] flex-col justify-between overflow-hidden rounded-2xl p-6 sm:p-8 shadow-[0_30px_90px_rgba(0,0,0,0.18)] will-change-transform"
+              style={{
+                background: c.bg,
+                color: c.text,
+              }}
             >
-              {/* IMAGE */}
-              <div className="overflow-hidden rounded-[26px] aspect-[16/10]">
-                <img
-                  src={card.src}
-                  alt={card.heading}
-                  className="w-full h-full object-cover"
-                />
+              {/* WATERMARK */}
+              <div
+                className="absolute -bottom-6 -right-3 select-none font-black text-[7rem] sm:text-[10rem]"
+                style={{ color: c.ghost }}
+              >
+                {c.num}
               </div>
 
-              {/* CONTENT */}
-              <div className="pt-10 md:pt-12 space-y-4">
-                <h3 className="text-4xl md:text-6xl font-black text-black tracking-tight">
-                  {card.heading}
-                </h3>
+              {/* TOP */}
+              <div className="flex items-center justify-between">
+                <span
+                  className="rounded-md px-3 py-1 text-[0.6rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.15em]"
+                  style={{
+                    background:
+                      c.bg === "#f5f0e8"
+                        ? "rgba(0,0,0,0.06)"
+                        : "rgba(255,255,255,0.08)",
+                    color: c.accent,
+                  }}
+                >
+                  {c.label}
+                </span>
 
-                <p className="text-base md:text-lg text-neutral-600 leading-relaxed">
-                  {card.body}
+                <span className="text-[0.7rem] opacity-40">
+                  {c.num}/04
+                </span>
+              </div>
+
+              {/* TITLE */}
+              <div>
+                <h2 className="text-[2.2rem] sm:text-[3.5rem] md:text-[4.5rem] font-black uppercase leading-[0.9]">
+                  {c.title[0]}
+                  <br />
+                  <span className="italic" style={{ color: c.accent }}>
+                    {c.title[1]}
+                  </span>
+                </h2>
+
+                <p className="mt-4 max-w-[30ch] text-[0.9rem] sm:text-[1rem] opacity-60 leading-7">
+                  {c.body}
                 </p>
               </div>
+
+              {/* FOOTER */}
+              <div
+                className="flex items-center justify-between border-t pt-4"
+                style={{ borderColor: c.border }}
+              >
+                <span className="text-[0.7rem] opacity-40">
+                  Rise Studio
+                </span>
+
+                <div
+                  className="flex h-8 w-8 items-center justify-center rounded-full border"
+                  style={{ borderColor: c.border }}
+                >
+                  <div
+                    className="h-2 w-2 rounded-full"
+                    style={{ background: c.accent }}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

@@ -1,62 +1,76 @@
 import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
 
 export default function SnakeText() {
-  const sliderRef = useRef(null);
+  const lettersRef = useRef([]);
+  const target = useRef(0);
+  const current = useRef(0);
+  const lastScroll = useRef(0);
+  const rafRef = useRef(null);
+  const started = useRef(false);
+
+  const text = "READY TO RISE AT SEVEN";
 
   useEffect(() => {
-    let currentX = 0;
-    let targetX = 0;
-    let lastScroll = window.scrollY;
+    const init = () => {
+      if (started.current) return; // prevent double init
+      started.current = true;
 
-    const update = () => {
-      currentX += (targetX - currentX) * 0.08;
+      target.current = 0;
+      current.current = 0;
+      lastScroll.current = window.scrollY;
 
-      gsap.set(sliderRef.current, {
-        x: currentX,
-      });
+      const animate = () => {
+        current.current += (target.current - current.current) * 0.1;
 
-      requestAnimationFrame(update);
+        const time = Date.now() * 0.003;
+
+        lettersRef.current.forEach((el, i) => {
+          if (!el) return; // IMPORTANT safety fix
+
+          const wave = Math.sin(time + i * 0.3) * 14;
+
+          el.style.transform = `translate3d(${current.current + wave}px, 0, 0)`;
+        });
+
+        rafRef.current = requestAnimationFrame(animate);
+      };
+
+      rafRef.current = requestAnimationFrame(animate);
     };
 
-    update();
+    // ✅ wait for layout paint (important fix)
+    const frame = requestAnimationFrame(init);
 
     const handleScroll = () => {
-      const currentScroll = window.scrollY;
+      const scrollY = window.scrollY;
+      const diff = scrollY - lastScroll.current;
 
-      // SCROLL DOWN
-      if (currentScroll > lastScroll) {
-        targetX -= 120;
-      }
+      target.current += diff * -0.8;
 
-      // SCROLL UP
-      else {
-        targetX += 120;
-      }
-
-      lastScroll = currentScroll;
+      lastScroll.current = scrollY;
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(rafRef.current);
       window.removeEventListener("scroll", handleScroll);
+      started.current = false;
     };
   }, []);
 
   return (
-    <section className="overflow-hidden bg-white py-20">
-      <div
-        ref={sliderRef}
-        className="flex whitespace-nowrap will-change-transform"
-      >
-        {[...Array(6)].map((_, i) => (
-          <h1
+    <section className="overflow-hidden bg-white py-40">
+      <div className="flex flex-nowrap justify-center whitespace-nowrap font-black uppercase leading-none text-black">
+        {text.split("").map((char, i) => (
+          <span
             key={i}
-            className="text-[12vw] font-black uppercase tracking-tight text-black mr-20"
+            ref={(el) => (lettersRef.current[i] = el)}
+            className="inline-block text-8xl sm:text-9xl md:text-[10rem] will-change-transform"
           >
-            READY TO RISE AT SEVEN
-          </h1>
+            {char === " " ? "\u00A0" : char}
+          </span>
         ))}
       </div>
     </section>

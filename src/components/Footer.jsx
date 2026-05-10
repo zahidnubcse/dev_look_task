@@ -19,7 +19,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="px-3 pb-3 mt-10">
+    <footer className="px-3 pb-3 mt-25">
       <div className="bg-black text-white rounded-[35px] px-6 sm:px-10 lg:px-14 py-14 overflow-hidden">
         
         {/* TOP */}

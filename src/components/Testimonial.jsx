@@ -59,7 +59,7 @@ export default function Testimonial() {
         ↗
       </div>
 
-      <section className="mt-40 px-6 lg:px-10">
+      <section className="mt-6 px-6 lg:px-10">
 
         {/* Top Heading */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">

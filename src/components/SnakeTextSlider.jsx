@@ -1,77 +1,120 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-export default function SnakeText() {
-  const lettersRef = useRef([]);
-  const target = useRef(0);
-  const current = useRef(0);
-  const lastScroll = useRef(0);
+export default function ScrollMarquee() {
+  const marqueeRef = useRef(null);
+  const positionRef = useRef(0);
+  const lastScrollY = useRef(0);
   const rafRef = useRef(null);
-  const started = useRef(false);
+  const speedRef = useRef(0);
 
-  const text = "READY TO RISE AT SEVEN";
+  // Text repeated for seamless loop
+  const text = "Ready To Rise At Seven ";
+  const repeated = text.repeat(6);
 
   useEffect(() => {
-    const start = () => {
-      if (started.current) return;
-      started.current = true;
+    const el = marqueeRef.current;
+    if (!el) return;
 
-      lastScroll.current = window.scrollY;
+    const totalWidth = el.scrollWidth / 2;
 
-      const animate = () => {
-        current.current += (target.current - current.current) * 0.12;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY.current;
 
-        const time = Date.now() * 0.0025;
+      lastScrollY.current = currentScrollY;
 
-        lettersRef.current.forEach((el, i) => {
-          if (!el) return;
+      // scroll down = left
+      // scroll up = right
+      speedRef.current = delta * 2.5;
+    };
 
-          const wave = Math.sin(time + i * 0.25) * 10;
+    const animate = () => {
+      positionRef.current -= speedRef.current;
 
-          el.style.transform = `translate3d(${current.current + wave}px, 0, 0)`;
-        });
+      // smooth slowdown
+      speedRef.current *= 0.92;
 
-        rafRef.current = requestAnimationFrame(animate);
-      };
+      // seamless loop
+      if (positionRef.current <= -totalWidth) {
+        positionRef.current += totalWidth;
+      }
+
+      if (positionRef.current >= 0) {
+        positionRef.current -= totalWidth;
+      }
+
+      el.style.transform = `translateX(${positionRef.current}px)`;
 
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    // wait until DOM paints (CRITICAL FIX)
-    const frame = requestAnimationFrame(start);
-
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const diff = scrollY - lastScroll.current;
-
-      // smoother control (prevents “invisible jump” bug)
-      target.current += diff * -0.7;
-
-      lastScroll.current = scrollY;
-    };
+    rafRef.current = requestAnimationFrame(animate);
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      cancelAnimationFrame(frame);
-      cancelAnimationFrame(rafRef.current);
       window.removeEventListener("scroll", handleScroll);
-      started.current = false;
+      cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
   return (
-    <section className="overflow-hidden bg-white py-40">
-      <div className="flex justify-center whitespace-nowrap font-black uppercase leading-none text-black">
-        {text.split("").map((char, i) => (
+    <div
+      style={{
+        background: "#ffffff",
+        padding: "50px 0",
+        overflow: "hidden",
+        userSelect: "none",
+      }}
+    >
+      <div
+        ref={marqueeRef}
+        style={{
+          display: "flex",
+          whiteSpace: "nowrap",
+          willChange: "transform",
+        }}
+      >
+        {[0, 1].map((i) => (
           <span
             key={i}
-            ref={(el) => (lettersRef.current[i] = el)}
-            className="inline-block text-8xl sm:text-9xl md:text-[10rem] will-change-transform"
+            style={{
+              fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              fontSize: "clamp(50px, 9vw, 170px)",
+              fontWeight: 900,
+              color: "#000",
+              letterSpacing: "-0.05em",
+              paddingRight: "0.4em",
+              lineHeight: 1,
+            }}
           >
-            {char === " " ? "\u00A0" : char}
+            {repeated}
           </span>
         ))}
       </div>
-    </section>
+    </div>
+  );
+}
+
+// Full page demo
+export function ScrollMarqueeDemo() {
+  return (
+    <div style={{ background: "#fff" }}>
+      <section
+        style={{
+          height: "100vh",
+          background: "#fff",
+        }}
+      />
+
+      <ScrollMarquee />
+
+      <section
+        style={{
+          height: "100vh",
+          background: "#fff",
+        }}
+      />
+    </div>
   );
 }
